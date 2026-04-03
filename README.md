@@ -1,66 +1,110 @@
-## Foundry
+# 🔄 Upgradable WETH (UUPS) via Foundry
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+![Solidity](https://img.shields.io/badge/Solidity-^0.8.20-e6e6e6?style=flat-square&logo=solidity)
+![Foundry](https://img.shields.io/badge/Built_with-Foundry-FF0000?style=flat-square)
+![OpenZeppelin](https://img.shields.io/badge/OpenZeppelin-v5.0-4E5EE4?style=flat-square)
 
-Foundry consists of:
+This repository demonstrates a production-ready implementation of an upgradeable smart contract system using the **UUPS (Universal Upgradeable Proxy Standard)** pattern. It features a Wrapped Ether (WETH) logic contract that is upgraded from V1 to V2 without losing state or user balances.
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## 🌟 Key Features
 
-## Documentation
+- **UUPS Proxy Architecture:** Uses `ERC1967Proxy` for gas-efficient and secure upgrades.
+- **OpenZeppelin V5:** Implements the latest secure standard for initializable and upgradeable contracts.
+- **Double-Initialization Protection:** Utilizes `reinitializer(2)` to safely manage state variables across version upgrades.
+- **Automated Deployments:** Includes Foundry scripts for 1-click deployments and upgrades directly to live testnets.
+- **Full Test Coverage:** Comprehensive test suite ensuring state retention, correct authorization (`_authorizeUpgrade`), and upgrade functionality.
 
-https://book.getfoundry.sh/
+---
 
-## Usage
+## 📂 Project Structure
 
-### Build
-
-```shell
-$ forge build
+```text
+├── src/
+│   ├── WETH_v1.sol         # Initial Logic Contract (V1)
+│   └── WETH_v2.sol         # Upgraded Logic Contract (V2)
+├── script/
+│   └── UpdWETHScript.sol   # Deployment and Upgrade Scripts
+├── test/
+│   └── WETHUUPSTest.t.sol  # Unit tests for UUPS logic
+└── foundry.toml            # Foundry configuration
 ```
 
-### Test
+---
 
-```shell
-$ forge test
+## 🚀 Getting Started
+
+### Prerequisites
+
+You need to have [Foundry](https://getfoundry.sh/) installed.
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
 ```
 
-### Format
+### Installation
 
-```shell
-$ forge fmt
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/Rythys/WETHVersionControl.git
+cd WETHVersionControl
+forge install
 ```
 
-### Gas Snapshots
+---
 
-```shell
-$ forge snapshot
+## 🧪 Testing
+
+The test suite validates proxy initialization, prevents unauthorized upgrades, and ensures variables remain intact after swapping the implementation.
+
+```bash
+forge test -vvv
 ```
 
-### Anvil
+---
 
-```shell
-$ anvil
+## 🌐 Deployment & Upgrades (Sepolia)
+
+### 1. Environment Setup
+Create a `.env` file in the root directory:
+```env
+PRIVATE_KEY=your_wallet_private_key
+ETHERSCAN_API_KEY=your_etherscan_api_key
+PROXY_ADDRESS=leave_blank_until_deployed
 ```
 
-### Deploy
+### 2. Deploy V1 + Proxy
+Deploys the `WETH_v1` logic, an `ERC1967Proxy`, and initializes it.
+```bash
+source .env
+forge script script/UpdWETHScript.sol:UpdWETHScript --sig "deploy()" --rpc-url https://sepolia.infura.io/v3/YOUR_INFURA_KEY --broadcast --verify
+```
+*After deployment, copy the Proxy Address and add it to your `.env` file as `PROXY_ADDRESS`.*
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+### 3. Upgrade to V2
+Deploys the `WETH_v2` logic and calls `upgradeToAndCall` on the existing proxy.
+```bash
+source .env
+forge script script/UpdWETHScript.sol:UpdWETHScript --sig "upgrade()" --rpc-url https://sepolia.infura.io/v3/YOUR_INFURA_KEY --broadcast --verify
 ```
 
-### Cast
+---
 
-```shell
-$ cast <subcommand>
-```
+## 📍 Deployed Addresses (Sepolia Testnet)
 
-### Help
+*You can verify these contracts on [Sepolia Etherscan](https://sepolia.etherscan.io/).*
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+| Contract | Address |
+|---|---|
+| **ERC1967 Proxy** (Main) | `вставьте_адрес_прокси` |
+| **WETH V1** (Implementation) | `вставьте_адрес_V1` |
+| **WETH V2** (Implementation) | `вставьте_адрес_V2` |
+
+---
+
+## 🛡️ Security
+This project uses the UUPS pattern instead of Transparent Proxy. In UUPS, the upgrade logic resides in the implementation contract, meaning if you deploy a V2 that forgets to inherit `UUPSUpgradeable` or omits `_authorizeUpgrade`, the contract cannot be upgraded to V3. The provided `WETH_v2.sol` safely inherits from `WETH_v1` to prevent this.
+
+## 📝 License
+UNLICENSED
