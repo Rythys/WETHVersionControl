@@ -97,14 +97,11 @@ forge script script/UpdWETHScript.sol:UpdWETHScript --sig "upgrade()" --rpc-url 
 
 | Contract | Address |
 |---|---|
-| **ERC1967 Proxy** (Main) | `0x840B39B100a15376126d21D5D9ee2B8D4a26427c` |
-| **WETH V1** (Implementation) | `0x28B085EFd9c452dDBaA4f30Cb517B2bdd5B1D686` |
-| **WETH V2** (Implementation) | `0x4e7bfED836D30b0774d732E3f31C29e700a6012a` |
+| **ERC1967 Proxy** (Main) | [`0x840B39B100a15376126d21D5D9ee2B8D4a26427c`](https://sepolia.etherscan.io/address/0x840b39b100a15376126d21d5d9ee2b8d4a26427c) |
+| **WETH V1** (Implementation) | [`0x28B085EFd9c452dDBaA4f30Cb517B2bdd5B1D686`](https://sepolia.etherscan.io/address/0x28b085efd9c452ddbaa4f30cb517b2bdd5b1d686) |
+| **WETH V2** (Implementation) | [`0x4e7bfED836D30b0774d732E3f31C29e700a6012a`](https://sepolia.etherscan.io/address/0x4e7bfed836d30b0774d732e3f31c29e700a6012a) |
 
 ---
 
 ## 🛡️ Security
 This project uses the UUPS pattern instead of Transparent Proxy. In UUPS, the upgrade logic resides in the implementation contract, meaning if you deploy a V2 that forgets to inherit `UUPSUpgradeable` or omits `_authorizeUpgrade`, the contract cannot be upgraded to V3. The provided `WETH_v2.sol` safely inherits from `WETH_v1` to prevent this.
-
-## 📝 License
-UNLICENSED
