@@ -1,6 +1,6 @@
 # 🔄 Upgradable WETH (UUPS) via Foundry
 
-![Solidity](https://img.shields.io/badge/Solidity-^0.8.20-e6e6e6?style=flat-square&logo=solidity)
+![Solidity](https://img.shields.io/badge/Solidity-^0.8.33-e6e6e6?style=flat-square&logo=solidity)
 ![Foundry](https://img.shields.io/badge/Built_with-Foundry-FF0000?style=flat-square)
 ![OpenZeppelin](https://img.shields.io/badge/OpenZeppelin-v5.0-4E5EE4?style=flat-square)
 
@@ -97,9 +97,9 @@ forge script script/UpdWETHScript.sol:UpdWETHScript --sig "upgrade()" --rpc-url 
 
 | Contract | Address |
 |---|---|
-| **ERC1967 Proxy** (Main) | `вставьте_адрес_прокси` |
-| **WETH V1** (Implementation) | `вставьте_адрес_V1` |
-| **WETH V2** (Implementation) | `вставьте_адрес_V2` |
+| **ERC1967 Proxy** (Main) | `0x840B39B100a15376126d21D5D9ee2B8D4a26427c` |
+| **WETH V1** (Implementation) | `0x28B085EFd9c452dDBaA4f30Cb517B2bdd5B1D686` |
+| **WETH V2** (Implementation) | `0x4e7bfED836D30b0774d732E3f31C29e700a6012a` |
 
 ---
 
