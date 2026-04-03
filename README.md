@@ -4,7 +4,7 @@
 ![Foundry](https://img.shields.io/badge/Built_with-Foundry-FF0000?style=flat-square)
 ![OpenZeppelin](https://img.shields.io/badge/OpenZeppelin-v5.0-4E5EE4?style=flat-square)
 
-This repository demonstrates a production-ready implementation of an upgradeable smart contract system using the **UUPS (Universal Upgradeable Proxy Standard)** pattern. It features a Wrapped Ether (WETH) logic contract that is upgraded from V1 to V2 without losing state or user balances.
+This repository demonstrates a production-ready implementation of an upgradeable smart contract system using the **UUPS (Universal Upgradeable Proxy Standard)** pattern. It features a Wrapped Ether (WETH) logic contract that is upgraded from V1 to V2 with Flash Loans.
 
 ## 🌟 Key Features
 
@@ -27,66 +27,6 @@ This repository demonstrates a production-ready implementation of an upgradeable
 ├── test/
 │   └── WETHUUPSTest.t.sol  # Unit tests for UUPS logic
 └── foundry.toml            # Foundry configuration
-```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-You need to have [Foundry](https://getfoundry.sh/) installed.
-
-```bash
-curl -L https://foundry.paradigm.xyz | bash
-foundryup
-```
-
-### Installation
-
-Clone the repository and install dependencies:
-
-```bash
-git clone https://github.com/Rythys/WETHVersionControl.git
-cd WETHVersionControl
-forge install
-```
-
----
-
-## 🧪 Testing
-
-The test suite validates proxy initialization, prevents unauthorized upgrades, and ensures variables remain intact after swapping the implementation.
-
-```bash
-forge test -vvv
-```
-
----
-
-## 🌐 Deployment & Upgrades (Sepolia)
-
-### 1. Environment Setup
-Create a `.env` file in the root directory:
-```env
-PRIVATE_KEY=your_wallet_private_key
-ETHERSCAN_API_KEY=your_etherscan_api_key
-PROXY_ADDRESS=leave_blank_until_deployed
-```
-
-### 2. Deploy V1 + Proxy
-Deploys the `WETH_v1` logic, an `ERC1967Proxy`, and initializes it.
-```bash
-source .env
-forge script script/UpdWETHScript.sol:UpdWETHScript --sig "deploy()" --rpc-url https://sepolia.infura.io/v3/YOUR_INFURA_KEY --broadcast --verify
-```
-*After deployment, copy the Proxy Address and add it to your `.env` file as `PROXY_ADDRESS`.*
-
-### 3. Upgrade to V2
-Deploys the `WETH_v2` logic and calls `upgradeToAndCall` on the existing proxy.
-```bash
-source .env
-forge script script/UpdWETHScript.sol:UpdWETHScript --sig "upgrade()" --rpc-url https://sepolia.infura.io/v3/YOUR_INFURA_KEY --broadcast --verify
 ```
 
 ---
