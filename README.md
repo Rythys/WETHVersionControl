@@ -43,5 +43,9 @@ This repository demonstrates a production-ready implementation of an upgradeable
 
 ---
 
+## How to improve
+1. Make storage of versions
+2. Make versions revert
+
 ## 🛡️ Security
 This project uses the UUPS pattern instead of Transparent Proxy. In UUPS, the upgrade logic resides in the implementation contract, meaning if you deploy a V2 that forgets to inherit `UUPSUpgradeable` or omits `_authorizeUpgrade`, the contract cannot be upgraded to V3. The provided `WETH_v2.sol` safely inherits from `WETH_v1` to prevent this.
